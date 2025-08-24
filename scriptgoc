@@ -1,0 +1,212 @@
+-- Freeze 10s when script starts
+local t = tick() + 10
+while tick() < t do end
+
+local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "Grow A Garden Hub | made by vdawngg",
+    LoadingTitle = "Grow A Garden Loading...",
+    LoadingSubtitle = "made by vdawngg",
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = "VdawnggHub",
+        FileName = "Config"
+    },
+    KeySystem = false
+})
+
+-- TAB: TRADE
+local tradeTab = Window:CreateTab("Trade", 4483362458)
+tradeTab:CreateSection("Freeze Trade 🔊")
+
+local toggles = {}
+local function toggleNotify(name, state)
+    Rayfield:Notify({
+        Title = "Freeze Trade",
+        Content = name .. " is now " .. (state and "ON" or "OFF"),
+        Duration = 3,
+        Image = 4483362458,
+    })
+end
+
+local btnNames = {"Auto Accept", "Can't Cancel", "Freeze Trade", "Can't Leave"}
+for _, name in ipairs(btnNames) do
+    tradeTab:CreateToggle({
+        Name = name,
+        CurrentValue = false,
+        Callback = function(Value)
+            toggles[name] = Value
+            toggleNotify(name, Value)
+        end
+    })
+end
+
+tradeTab:CreateButton({
+    Name = "Leave Server",
+    Callback = function()
+        local TeleportService = game:GetService("TeleportService")
+        TeleportService:TeleportToPlaceInstance(0, "", game.Players.LocalPlayer)
+    end,
+})
+
+tradeTab:CreateSection("Fake Trade 🍊")
+tradeTab:CreateDropdown({
+    Name = "Select Pet",
+    Options = {"Kitsune", "Queen bee", "T-rex", "Disco bee", "Corrupted Kitsune", "Raccoon", "Dragonfly", "Butterfly", "Spinosaurus"},
+    CurrentOption = "None",
+    Callback = function(Value) getgenv().SelectedPet = Value end,
+})
+tradeTab:CreateInput({
+    Name = "Weight (kg)",
+    PlaceholderText = "Enter kg",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Text) getgenv().SelectedKg = Text end,
+})
+tradeTab:CreateDropdown({
+    Name = "Mutation",
+    Options = {"Shiny", "Inverted", "Frozen", "Golden", "Tiny", "Ironskin", "Shocked", "Rainbow", "Radiant", "Ascended", "Tranquil", "Corrupt", "Fried"},
+    CurrentOption = "None",
+    Callback = function(Value) getgenv().SelectedMutation = Value end,
+})
+tradeTab:CreateButton({
+    Name = "Add Pet To Trade",
+    Callback = function()
+        Rayfield:Notify({
+            Title = "Fake Trade",
+            Content = "Transferring...",
+            Duration = 2,
+        })
+        task.wait(2)
+        Rayfield:Notify({
+            Title = "Fake Trade",
+            Content = "Added: " .. (getgenv().SelectedMutation or "") .. " " .. (getgenv().SelectedPet or "") .. " - " .. (getgenv().SelectedKg or "") .. "kg",
+            Duration = 4,
+        })
+    end,
+})
+
+-- TAB: RANDOMIZE
+local randTab = Window:CreateTab("Randomize", 4483362458)
+randTab:CreateButton({
+    Name = "Randomize Pet",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Khangdz28/Randomizepet12/refs/heads/main/Khngscript"))()
+    end,
+})
+randTab:CreateButton({
+    Name = "Randomize Mutation",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Khangdz28/RandomizeMutation/refs/heads/main/Khngscript"))()
+    end,
+})
+
+-- TAB: SPAWNER
+local spawnerTab = Window:CreateTab("Spawner", 4483362458)
+spawnerTab:CreateButton({
+    Name = "Run Spawner",
+    Callback = function()
+        local Spawner = loadstring(game:HttpGet("https://codeberg.org/darkdarkdark/roblox/raw/branch/main/Spawner.lua"))()
+        Spawner.Load()
+    end,
+})
+
+-- TAB: MISC
+local miscTab = Window:CreateTab("Misc", 4483362458)
+local dupeState = false
+miscTab:CreateToggle({
+    Name = "Detect Dupe Pet",
+    CurrentValue = false,
+    Callback = function(Value) dupeState = Value end,
+})
+miscTab:CreateButton({
+    Name = "Dupe Pet (allow mutation)",
+    Callback = function()
+        local screenGui = Instance.new("ScreenGui", game.CoreGui)
+        local blackFlash = Instance.new("Frame", screenGui)
+        blackFlash.Size = UDim2.new(1, 0, 1, 0)
+        blackFlash.BackgroundColor3 = Color3.new(0, 0, 0)
+        blackFlash.BackgroundTransparency = 1
+
+        local msg = Instance.new("TextLabel", blackFlash)
+        msg.Size = UDim2.new(1, 0, 0.2, 0)
+        msg.Position = UDim2.new(0, 0, 0.4, 0)
+        msg.Text = "Dupe in progress | made by vdawngg"
+        msg.TextColor3 = Color3.new(1, 1, 0)
+        msg.BackgroundTransparency = 1
+        msg.Font = Enum.Font.GothamBlack
+        msg.TextScaled = true
+
+        for i = 1, 20 do
+            blackFlash.BackgroundTransparency = 0
+            task.wait(0.1)
+            blackFlash.BackgroundTransparency = 1
+            task.wait(0.1)
+        end
+        screenGui:Destroy()
+    end,
+})
+
+-- TAB: FINDER
+local finderTab = Window:CreateTab("Finder", 4483362458)
+finderTab:CreateInput({
+    Name = "Find Server",
+    PlaceholderText = "Current server version: v1701",
+    RemoveTextAfterFocusLost = false,
+    Callback = function() end,
+})
+finderTab:CreateButton({
+    Name = "Search Server",
+    Callback = function()
+        Rayfield:Notify({
+            Title = "Finder",
+            Content = "Searching for a good server... please wait",
+            Duration = 3,
+        })
+    end,
+})
+finderTab:CreateInput({
+    Name = "Find Pet",
+    PlaceholderText = "Best pet in server: ...",
+    RemoveTextAfterFocusLost = false,
+    Callback = function() end,
+})
+finderTab:CreateButton({
+    Name = "Start Searching",
+    Callback = function()
+        Rayfield:Notify({
+            Title = "Finder",
+            Content = "Searching... please wait",
+            Duration = 3,
+        })
+
+        local priorityList = {
+            "Corrupted Kitsune", "Queen bee", "Dragonfly", "T-rex", "Spinosaurus", "Butterfly", "Raccoon", "Disco bee", "Kitsune"
+        }
+
+        local bestPet = nil
+        for _, player in ipairs(game.Players:GetPlayers()) do
+            if player ~= game.Players.LocalPlayer then
+                local petsFolders = {player:FindFirstChild("Backpack"), player:FindFirstChild("Pets"), player:FindFirstChild("Garden")}
+                for _, folder in pairs(petsFolders) do
+                    if folder then
+                        for _, pet in pairs(folder:GetDescendants()) do
+                            if table.find(priorityList, pet.Name) then
+                                bestPet = pet.Name
+                                break
+                            end
+                        end
+                    end
+                    if bestPet then break end
+                end
+            end
+            if bestPet then break end
+        end
+
+        Rayfield:Notify({
+            Title = "Finder",
+            Content = "Best pet in server is: " .. (bestPet or "No"),
+            Duration = 4,
+        })
+    end,
+})
