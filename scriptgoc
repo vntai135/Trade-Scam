@@ -5,12 +5,12 @@ while tick() < t do end
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Grow A Garden Hub | made by vdawngg",
+    Name = "Grow A Garden Hub | made by @sharescriptgrowagarden",
     LoadingTitle = "Grow A Garden Loading...",
-    LoadingSubtitle = "made by vdawngg",
+    LoadingSubtitle = "made by @sharescriptgrowagarden",
     ConfigurationSaving = {
         Enabled = true,
-        FolderName = "VdawnggHub",
+        FolderName = "@sharescriptgrowagarden",
         FileName = "Config"
     },
     KeySystem = false
